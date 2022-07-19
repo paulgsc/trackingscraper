@@ -20,7 +20,7 @@ def scrape_tracking(url):
     driver.get(url)
     button=driver.find_element('xpath', '//*[@id="btnSubmit"]')
     button.click()
-    time.sleep(2)
+    time.sleep(.5)
     html_source=driver.page_source
     dfs=pd.read_html(html_source)
     result=' '.join(map(str,dfs))
