@@ -14,6 +14,22 @@ import re
 
 # In[ ]:
 
+def scrape_metro_tracking(url):
+    driver=webdriver.Chrome()
+    driver.implicitly_wait(.1)
+    try:
+        driver.get(url)
+        html_source=driver.page_source
+        driver.close()
+    except:
+        print('Alert! Incorrect Reference included in list, url link is invalid')
+        return
+
+    dfs=pd.read_html(html_source)
+    dfs[1].columns=dfs[0].columns
+    df_metro=dfs[1].iloc[:1, :]
+    df_metro.insert(0,'Tracking',[re.sub(r'^.*id=','',url)])
+    return df_metro
 
 def scrape_tracking(url):
     driver=webdriver.Chrome()
