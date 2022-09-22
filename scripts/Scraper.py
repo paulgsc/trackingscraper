@@ -51,6 +51,11 @@ def scrape_tracking(url):
     shipment_created=result.find('Shipment created.')>0
     shipped=result.find('IN TRANSIT')>0
     delivered=result.find('SHIPMENT DELIVERED')>0
-    multiple_list=result.find('Multiple Shipments were found')>0	
-    return {'shipment_created':shipment_created, 'shipped':shipped, 'delivered':delivered, 'Multiple Shipments': multiple_list}
+    multiple_list=result.find('Multiple Shipments were found')>0
+    soup = BeautifulSoup(html_source, 'html.parser')
+    try:
+        message_list=soup.find("span", {"id":"lblStatus"}).text
+    except:
+        message_list='null'	
+    return {'shipment_created':shipment_created, 'shipped':shipped, 'delivered':delivered, 'Multiple Shipments': multiple_list, 'Response': message_list}
 
